@@ -69,6 +69,10 @@ router.post('/orders', function (req, res) {
   }
 
   var totals = pricing.computeTotals(items, rawCoupon);
+  items.forEach(function (item, index) {
+    item.gstPercent = totals.lines[index].gstPercent;
+    item.lineTax = totals.lines[index].tax;
+  });
   var paymentMode = (body.paymentMode || 'cash').toLowerCase();
   var customerName = (body.customer || '').trim() || 'Walk-in';
   var customerId = body.customerId ? Number(body.customerId) : null;
